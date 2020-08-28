@@ -3,6 +3,7 @@
 
 #define TIME_STEP 64
 #define SPEED 6.28
+#define DIAGONAL_ZERO -1.13425
 
 WbDeviceTag motors[4];
 
@@ -32,22 +33,22 @@ void right() {
 }
 
 void frontLeft() {
-  double speeds[4] = {SPEED, 0.0, 0.0, SPEED};
+  double speeds[4] = {SPEED, DIAGONAL_ZERO, DIAGONAL_ZERO, SPEED};
   setSpeed(speeds);
 }
 
 void backLeft() {
-  double speeds[4] = {0.0, -SPEED, -SPEED, 0.0};
+  double speeds[4] = {-DIAGONAL_ZERO, -SPEED, -SPEED, -DIAGONAL_ZERO};
   setSpeed(speeds);  
 }
 
 void backRight() {
-  double speeds[4] = {-SPEED, 0.0, 0.0, -SPEED};
+  double speeds[4] = {-SPEED, -DIAGONAL_ZERO, -DIAGONAL_ZERO, -SPEED};
   setSpeed(speeds);
 }
 
 void frontRight() {
-  double speeds[4] = {0.0, SPEED, SPEED, 0.0};
+  double speeds[4] = {DIAGONAL_ZERO, SPEED, SPEED, DIAGONAL_ZERO};
   setSpeed(speeds);
 }
 
@@ -65,7 +66,7 @@ int main(int argc, char **argv) {
   wb_motor_set_position(motors[3], INFINITY);
     
   while (wb_robot_step(TIME_STEP) != -1) {   
-    frontLeft();
+    frontRight();
   };
 
   wb_robot_cleanup();

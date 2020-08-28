@@ -2,17 +2,6 @@
 WorldInfo {
   contactProperties [
     ContactProperties {
-      material1 "InteriorWheelMat"
-      coulombFriction [
-        1.8, 0, 0.2
-      ]
-      frictionRotation -0.9648 0
-      bounce 0
-      forceDependentSlip [
-        10, 0
-      ]
-    }
-    ContactProperties {
       material1 "ExteriorWheelMat"
       coulombFriction [
         1.8, 0, 0.2
@@ -23,11 +12,22 @@ WorldInfo {
         10, 0
       ]
     }
+    ContactProperties {
+      material1 "InteriorWheelMat"
+      coulombFriction [
+        1.8, 0, 0.2
+      ]
+      frictionRotation -0.9648 0
+      bounce 0
+      forceDependentSlip [
+        10, 0
+      ]
+    }
   ]
 }
 Viewpoint {
-  orientation -0.8909911277482198 0.40856258041425686 0.19801875708932026 0.9647199326431143
-  position 0.9734612212913409 3.2191782041886166 2.208437663561124
+  orientation 1 0 0 4.71238898038469
+  position 0.5985054221557864 3.4248561807090274 -0.3315101954307076
 }
 TexturedBackground {
 }
