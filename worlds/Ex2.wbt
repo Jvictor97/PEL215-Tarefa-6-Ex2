@@ -26,8 +26,8 @@ WorldInfo {
   ]
 }
 Viewpoint {
-  orientation 1 0 0 4.71238898038469
-  position 0.5985054221557864 3.4248561807090274 -0.3315101954307076
+  orientation 0.8065383237768998 -0.5572608667082339 -0.19737339920753452 5.455609526174013
+  position 2.0133138421471677 4.575795407908277 3.5295683908534405
 }
 TexturedBackground {
 }
@@ -37,7 +37,8 @@ RectangleArena {
   floorSize 10 10
   floorTileSize 2.5 2.5
 }
-Youbot {
+DEF MY_ROBOT Youbot {
   translation 0 0.110003 0
   controller "my_controller"
+  supervisor TRUE
 }

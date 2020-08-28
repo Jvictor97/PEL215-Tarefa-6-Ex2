@@ -1,5 +1,8 @@
 #include <webots/robot.h>
 #include <webots/motor.h>
+#include <webots/supervisor.h>
+#include <stdio.h>
+#include <math.h>
 
 #define TIME_STEP 64
 #define SPEED 6.28
@@ -10,6 +13,11 @@ WbDeviceTag motors[4];
 void setSpeed(double* speeds) {
   for (int i = 0; i < 4; i++)
     wb_motor_set_velocity(motors[i], speeds[i]);
+}
+
+void stop() {
+  double speeds[4] = {0.0, 0.0, 0.0, 0.0};
+  setSpeed(speeds);
 }
 
 void front() {
@@ -52,6 +60,12 @@ void frontRight() {
   setSpeed(speeds);
 }
 
+bool equal(double firstValue, double secondValue) {
+  const double tolerance = 0.1;
+  
+  return fabs(firstValue - secondValue) < tolerance;
+}
+
 int main(int argc, char **argv) {
   wb_robot_init();
    
@@ -64,9 +78,30 @@ int main(int argc, char **argv) {
   wb_motor_set_position(motors[1], INFINITY);
   wb_motor_set_position(motors[2], INFINITY);
   wb_motor_set_position(motors[3], INFINITY);
+  
+  WbNodeRef robot_node = wb_supervisor_node_get_from_def("MY_ROBOT");
+  WbFieldRef trans_field = wb_supervisor_node_get_field(robot_node, "translation");
     
-  while (wb_robot_step(TIME_STEP) != -1) {   
-    frontRight();
+  while (wb_robot_step(TIME_STEP) != -1) {
+    const double *values = wb_supervisor_field_get_sf_vec3f(trans_field);
+    double x = values[0], z = values[2];
+    
+    if (equal(x, 0.0) && equal(z, 0.0))
+      frontLeft();
+    else if (equal(x, 1.25) && equal(z, -1.25))
+      left();
+    else if (equal(x, 1.25) && equal(z, -2.5))
+      backLeft();
+    else if (equal(x, 0.0) && equal(z, -3.75))
+      back();
+    else if (equal(x, -1.25) && equal(z, -3.75))
+      backRight();
+    else if (equal(x, -2.5) && equal(z, -2.5))
+      right();  
+    else if (equal(x, -2.5) && equal(z, -1.25))
+      frontRight(); 
+    else if (equal(x, -1.25) && equal(z, 0.0))
+      front();
   };
 
   wb_robot_cleanup();
